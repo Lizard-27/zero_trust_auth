@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block title %}Set up 2FA{% endblock %}
+
+{% block content %}
+<div class="auth-card auth-card-xl">
+
+  <!-- Header -->
+  <div class="auth-header">
+    <span class="auth-badge">Two-Factor Setup</span>
+    <h1>Secure your account</h1>
+    <p class="auth-subtitle">
+      Scan the QR code with your authenticator app, then enter the 6-digit code to finish setup.
+    </p>
+  </div>
+
+  <!-- Steps -->
+  <div class="totp-steps">
+    <div class="totp-step is-active">1. Scan QR</div>
+    <div class="totp-step">2. Enter code</div>
+    <div class="totp-step">3. Save</div>
+  </div>
+
+  <!-- Main Layout -->
+  <div class="totp-grid">
+
+    <!-- QR Section -->
+    <section class="totp-qr-card">
+      <div class="totp-qr-frame">
+        <img class="totp-qr"
+             src="{{ url_for('auth.totp_qr') }}"
+             alt="TOTP QR code">
+      </div>
+
+      <p class="totp-caption">
+        Open Microsoft Authenticator and scan this code.
+      </p>
+    </section>
+
+    <!-- Right Side -->
+    <section class="totp-side">
+
+      <!-- Manual Key -->
+      <div class="totp-box">
+        <h3>Manual setup key</h3>
+        <p>If scanning fails, paste this key into your authenticator app.</p>
+        <code class="totp-secret">{{ user.totp_secret }}</code>
+      </div>
+
+      <!-- Confirm Form (UNCHANGED LOGIC) -->
+      <div class="totp-box">
+        <h3>Confirm code</h3>
+        <p>Enter the current 6-digit code from your authenticator.</p>
+
+        <form id="confirm-form"
+              method="POST"
+              action="{{ url_for('auth.totp_confirm') }}"
+              class="auth-form">
+
+          <!-- IMPORTANT: keep fingerprint -->
+          <input type="hidden" name="fingerprint" id="fp-input">
+
+          <div class="form-group">
+            <label for="code">6-digit code</label>
+            <input id="code"
+                   type="text"
+                   name="code"
+                   maxlength="6"
+                   pattern="[0-9]{6}"
+                   inputmode="numeric"
+                   autocomplete="one-time-code"
+                   placeholder="123456"
+                   required>
+          </div>
+
+          <div class="form-row">
+            <a class="auth-link" href="{{ url_for('auth.cancel_auth') }}">Cancel</a>
+            <button class="btn btn-primary auth-submit" type="submit">
+              Enable 2FA
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+    </section>
+  </div>
+</div>
+
+<!-- Fingerprint (UNCHANGED) -->
+<script src="{{ url_for('static', filename='js/fingerprint.js') }}"></script>
+<script>
+  getFingerprint().then(fp => {
+    document.getElementById('fp-input').value = fp;
+  });
+</script>
+
+{% endblock %}

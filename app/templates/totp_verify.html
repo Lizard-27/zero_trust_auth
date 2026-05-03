@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Two-factor authentication{% endblock %}
+
+{% block content %}
+<div class="auth-card auth-card-wide">
+  <div class="auth-header">
+    <span class="auth-badge">Two-Factor Verification</span>
+    <h1>Enter your 2FA code</h1>
+    <p class="auth-subtitle">
+      Open Microsoft Authenticator and enter the 6-digit code for ZeroTrustAuth.
+    </p>
+  </div>
+
+  <div class="totp-verify-box">
+    <form id="totp-form" method="POST" action="{{ url_for('auth.totp_verify') }}" class="auth-form">
+      <input type="hidden" name="fingerprint" id="fp-input">
+
+      <div class="form-group">
+        <label for="code">6-digit code</label>
+        <input id="code" type="text" name="code" maxlength="6"
+               pattern="[0-9]{6}" inputmode="numeric"
+               autocomplete="one-time-code" autofocus
+               placeholder="123456" required>
+      </div>
+
+      <div class="form-row">
+        <div class="auth-actions-left">
+          <a class="auth-link" href="{{ url_for('auth.cancel_auth') }}">Cancel</a>
+        </div>
+
+        <button class="btn btn-primary auth-submit" type="submit">Verify</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/fingerprint.js') }}"></script>
+<script>
+  getFingerprint().then(fp => {
+    document.getElementById('fp-input').value = fp;
+  });
+</script>
+{% endblock %}

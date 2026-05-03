@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="auth-card auth-card-wide">
+  <div class="auth-header">
+    <span class="auth-badge">Secure Access</span>
+    <h1>Sign in</h1>
+    <p class="auth-subtitle">Welcome back. Use your username and password to continue.</p>
+  </div>
+
+  <form method="POST" action="{{ url_for('auth.login') }}" class="auth-form">
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input id="username" type="text" name="username" required autocomplete="username" placeholder="Enter your username">
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input id="password" type="password" name="password" required autocomplete="current-password" placeholder="Enter your password">
+    </div>
+
+    <div class="form-row">
+      <label class="checkbox-label">
+        <input type="checkbox" name="remember">
+        <span>Remember me</span>
+      </label>
+
+      <a class="auth-link" href="{{ url_for('auth.register') }}">Create account</a>
+    </div>
+
+    <button class="btn btn-primary auth-submit" type="submit">Sign in</button>
+  </form>
+</div>
+{% endblock %}

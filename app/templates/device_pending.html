@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Device Pending Approval{% endblock %}
+
+{% block content %}
+<div class="auth-card auth-card-wide">
+  <div class="auth-header">
+    <span class="auth-badge">Pending Approval</span>
+    <h1>This device is waiting for approval</h1>
+    <p class="auth-subtitle">
+      You have completed password and 2FA verification, but this device is not trusted yet.
+      An existing trusted device must approve it before full access is granted.
+    </p>
+  </div>
+
+  <div class="pending-box">
+    <div class="pending-row">
+      <span class="pending-label">Device</span>
+      <span class="pending-value">{{ device.label or "Unknown device" }}</span>
+    </div>
+
+    <div class="pending-row">
+      <span class="pending-label">Fingerprint</span>
+      <span class="pending-value">{{ device.fingerprint_hash[:16] }}...</span>
+    </div>
+
+    <div class="pending-row">
+      <span class="pending-label">First seen</span>
+      <span class="pending-value">{{ device.first_seen.strftime('%Y-%m-%d %H:%M') }}</span>
+    </div>
+
+    <div class="pending-row">
+      <span class="pending-label">Status</span>
+      <span class="badge warn">Pending approval</span>
+    </div>
+  </div>
+
+  <div class="form-row" style="margin-top: 1.25rem;">
+    <a class="auth-link" href="{{ url_for('auth.cancel_auth') }}">Cancel login</a>
+  </div>
+</div>
+{% endblock %}

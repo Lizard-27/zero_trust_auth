@@ -1,0 +1,10 @@
+venv\Scripts\activate.bat
+secuirty error when logging in and before authenticating refreshing the page the user can get in
+TypeError: The view function for 'auth.totp_verify' did not return a valid response. The function either returned None or ended without a return statement.
+new bug TypeError: remove_device() missing 1 required positional argument: 'device_id' this bug appears when removing or trusting a device 
+the warning is sent to the new device not the original one
+the site should send a real notification to the original device ( new feature )
+somewhere the fingerprint.js file is called wrong
+the dashboard does not highlight any important details and does not look good at all same with the landing page
+fix the TOTP_setup css 
+windows hello works now but we have a HUGE problem the system for some reason forgets what the TOTP after the first login and just asks the user to set it up again 

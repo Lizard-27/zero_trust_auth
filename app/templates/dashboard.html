@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+
+  <!-- ── HERO / ACCOUNT HEADER ───────────────────── -->
+  <div class="dashboard-hero">
+    <div>
+      <span class="auth-badge">Security Dashboard</span>
+      <h1>{{ user.username }}</h1>
+      <p class="auth-subtitle">
+        Account created: {{ user.created_at.strftime('%Y-%m-%d') }}
+      </p>
+    </div>
+    <div class="hero-actions">
+      <a href="{{ url_for('auth.logout') }}" class="btn btn-secondary">Logout</a>
+    </div>
+  </div>
+
+  <!-- ── SECURITY STATUS OVERVIEW ─────────────────── -->
+  <div class="status-grid">
+    <div class="status-card">
+      <span class="label">Password</span>
+      <span class="badge ok">Secure</span>
+    </div>
+    <div class="status-card">
+      <span class="label">2FA (TOTP)</span>
+      <span class="badge ok">Enabled</span>
+    </div>
+    <div class="status-card">
+      <span class="label">Trusted Devices</span>
+      <span class="badge ok">
+        {{ devices | selectattr('is_trusted') | list | length }}
+      </span>
+    </div>
+    <div class="status-card">
+      <span class="label">Pending Requests</span>
+      <span class="badge warn">
+        {{ pending_requests | length if pending_requests else 0 }}
+      </span>
+    </div>
+  </div>
+
+  <!-- ── RISK WARNING BANNER ─────────────────────── -->
+  {% if risk_warning %}
+  <div class="alert alert-warning" style="margin-top:1.25rem;">
+    ⚠️ <strong>Elevated risk score ({{ risk_warning.score }})</strong>
+    — Your login triggered the following signals:
+    <ul style="margin:0.5rem 0 0 1.25rem; line-height:1.9;">
+      {% for reason in risk_warning.reasons %}
+        <li>{{ reason }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  <!-- ── PENDING DEVICE ALERT ────────────────────── -->
+  {% if pending_requests and pending_requests|length > 0 %}
+  <div class="alert alert-warning strong">
+    ⚠️ You have {{ pending_requests|length }} pending device request(s).
+    Review them immediately to prevent unauthorized access.
+  </div>
+  {% endif %}
+
+  <!-- ── PENDING APPROVALS ───────────────────────── -->
+  {% if pending_requests and pending_requests|length > 0 %}
+  <section class="dashboard-section critical">
+    <div class="section-header">
+      <h2>Pending Device Approvals</h2>
+      <p>These devices passed login but are NOT trusted yet.</p>
+    </div>
+
+    <div class="device-cards">
+      {% for approval in pending_requests %}
+      <div class="device-card pending">
+        <div class="device-info">
+          <h3>{{ approval.device.label or "Unknown Device" }}</h3>
+          <p>{{ approval.device.fingerprint_hash[:18] }}...</p>
+          <span class="meta">
+            First seen: {{ approval.device.first_seen.strftime('%Y-%m-%d %H:%M') }}
+          </span>
+        </div>
+        <div class="device-actions">
+          <form method="POST" action="{{ url_for('auth.trust_device', device_id=approval.device.id) }}">
+            <button type="submit" class="btn btn-primary">Approve</button>
+          </form>
+          <form method="POST" action="{{ url_for('auth.remove_device', device_id=approval.device.id) }}">
+            <button type="submit" class="btn btn-danger">Reject</button>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- ── TRUSTED DEVICES ─────────────────────────── -->
+  <section class="dashboard-section">
+    <div class="section-header">
+      <h2>Trusted Devices</h2>
+      <p>Devices allowed to access your account.</p>
+    </div>
+
+    {% set trusted_devices = devices | selectattr('is_trusted') | list %}
+
+    {% if trusted_devices %}
+    <div class="device-cards">
+      {% for device in trusted_devices %}
+      <div class="device-card trusted">
+        <div class="device-info">
+          <h3>{{ device.label or "Trusted Device" }}</h3>
+          <p>{{ device.fingerprint_hash[:18] }}...</p>
+          <span class="meta">
+            Last active: {{ device.last_seen.strftime('%Y-%m-%d %H:%M') }}
+          </span>
+        </div>
+        <div class="device-actions">
+          <form method="POST" action="{{ url_for('auth.remove_device', device_id=device.id) }}">
+            <button type="submit" class="btn btn-secondary">Remove</button>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+      <p>No trusted devices yet.</p>
+    {% endif %}
+  </section>
+
+</div>
+{% endblock %}

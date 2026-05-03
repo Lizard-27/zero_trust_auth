@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Set up Windows Hello{% endblock %}
+{% block content %}
+<div class="auth-card" style="text-align:center; max-width:480px;">
+
+  <div style="font-size:2.5rem; margin-bottom:0.75rem;">🪟</div>
+  <span class="auth-badge">Security Setup</span>
+  <h1 style="margin-top:0.5rem;">Set up Windows Hello</h1>
+  <p class="auth-subtitle">
+    Windows Hello adds a second layer of protection using your face,
+    fingerprint, or PIN. You'll need this when logging in from
+    unfamiliar devices or locations.
+  </p>
+
+  <div style="margin: 1.75rem 0;">
+    <button class="btn btn-primary auth-submit"
+            onclick="registerWebAuthn()"
+            id="register-btn">
+      Set up Windows Hello
+    </button>
+  </div>
+
+  <p id="webauthn-status" class="auth-hint" style="min-height:1.4rem;"></p>
+
+  <p style="margin-top:1.5rem; font-size:0.85rem; color:var(--muted);">
+    Make sure you're on a supported browser (Chrome or Edge) and
+    Windows Hello is configured on this device.
+  </p>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/webauthn.js') }}"></script>
+{% endblock %}

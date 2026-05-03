@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<section class="landing-shell">
+  <div class="hero-card hero-card-home">
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="eyebrow-dot"></span>
+        ZeroTrustAuth · modern identity security
+      </div>
+
+      <h1 class="hero-title">
+        Secure access,<br>
+        without the clutter.
+      </h1>
+
+      <p class="hero-copy">
+        ZeroTrustAuth gives you two-factor authentication, device trust, and session control in one clean flow.
+        Fast for users. Difficult to bypass. Built for teams that care about clarity and control.
+      </p>
+
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="{{ url_for('auth.login') }}">Sign in</a>
+        <a class="btn btn-secondary" href="{{ url_for('auth.register') }}">Create account</a>
+      </div>
+
+      <div class="hero-metrics">
+        <div class="metric-card">
+          <span class="metric-value">2FA</span>
+          <span class="metric-label">Password + TOTP</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-value">Device</span>
+          <span class="metric-label">Fingerprint trust</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-value">Fast</span>
+          <span class="metric-label">Clean, low-friction flow</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="orbit-wrap">
+        <div class="planet-wrap">
+          <div class="planet"></div>
+          <div class="ring-outer"></div>
+          <div class="ring-inner"></div>
+          <span class="orbit-dot"></span>
+          <span class="orbit-dot"></span>
+          <span class="orbit-dot"></span>
+        </div>
+
+        <div class="feature-pill">
+          <span class="pill-icon">🔐</span>
+          <div>
+            <div>Session protection</div>
+            <span class="pill-label">Cache control + secure cookies</span>
+          </div>
+        </div>
+
+        <div class="feature-pill">
+          <span class="pill-icon">📱</span>
+          <div>
+            <div>Trusted devices</div>
+            <span class="pill-label">Fingerprint-based recognition</span>
+          </div>
+        </div>
+
+        <div class="feature-pill">
+          <span class="pill-icon">🧭</span>
+          <div>
+            <div>Simple onboarding</div>
+            <span class="pill-label">Login → verify → dashboard</span>
+          </div>
+        </div>
+
+        <div class="feature-pill">
+          <span class="pill-icon">✨</span>
+          <div>
+            <div>Theme-aware UI</div>
+            <span class="pill-label">Light and dark mode</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="trust-strip">
+    <div class="trust-item">Password + TOTP</div>
+    <div class="trust-item">Device fingerprinting</div>
+    <div class="trust-item">Session-based auth</div>
+    <div class="trust-item">Cache-safe responses</div>
+    <div class="trust-item">Saved theme preference</div>
+  </section>
+
+  <section class="section-block">
+    <div class="section-header">
+      <h2>Built for secure, low-friction authentication</h2>
+      <p>Everything is designed to reduce risk without making the experience feel heavy.</p>
+    </div>
+
+    <div class="feature-grid">
+      <article class="info-card">
+        <div class="info-icon">01</div>
+        <h3>Two-step verification</h3>
+        <p>Users sign in with password and TOTP for a strong second factor without unnecessary complexity.</p>
+      </article>
+
+      <article class="info-card">
+        <div class="info-icon">02</div>
+        <h3>Device awareness</h3>
+        <p>Known devices can be recognized and handled more intelligently, helping reduce suspicious access.</p>
+      </article>
+
+      <article class="info-card">
+        <div class="info-icon">03</div>
+        <h3>Cleaner sessions</h3>
+        <p>Session-based authentication and cache-safe behavior keep the app predictable and secure.</p>
+      </article>
+
+      <article class="info-card">
+        <div class="info-icon">04</div>
+        <h3>Polished experience</h3>
+        <p>Dark and light mode, refined spacing, and clear hierarchy make the product feel modern immediately.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="split-panel">
+      <div class="split-copy">
+        <div class="section-header compact">
+          <h2>Simple flow. Strong protection.</h2>
+          <p>Users move through a clear authentication path with minimal confusion.</p>
+        </div>
+
+        <div class="flow-list">
+          <div class="flow-step">
+            <span class="flow-number">1</span>
+            <div>
+              <h3>Sign in</h3>
+              <p>Enter username and password in a clean, familiar interface.</p>
+            </div>
+          </div>
+
+          <div class="flow-step">
+            <span class="flow-number">2</span>
+            <div>
+              <h3>Verify</h3>
+              <p>Complete TOTP verification for a stronger second layer of defense.</p>
+            </div>
+          </div>
+
+          <div class="flow-step">
+            <span class="flow-number">3</span>
+            <div>
+              <h3>Access dashboard</h3>
+              <p>Trusted users land in a secure dashboard with device visibility and control.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="split-quote">
+        <div class="quote-card">
+          <p class="quote-mark">“</p>
+          <p class="quote-text">
+            Designed like a serious security product, not an admin panel disguised as one.
+          </p>
+          <p class="quote-subtext">Clear states. Strong contrast. Fast comprehension.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-card">
+    <div>
+      <h2>Ready to log in securely?</h2>
+      <p>Start with a simple sign-in flow and layer in stronger protection where it matters.</p>
+    </div>
+
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="{{ url_for('auth.login') }}">Sign in</a>
+      <a class="btn btn-secondary" href="{{ url_for('auth.register') }}">Create account</a>
+    </div>
+  </section>
+</section>
+{% endblock %}

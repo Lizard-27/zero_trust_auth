@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Access Blocked{% endblock %}
+{% block content %}
+<div class="auth-card" style="text-align:center; max-width:480px;">
+
+  <div style="font-size:2.5rem; margin-bottom:0.75rem;">🚫</div>
+
+  <span class="auth-badge">Risk Engine</span>
+  <h1 style="margin-top:0.5rem;">Login blocked</h1>
+  <p class="auth-subtitle">
+    Your risk score of <strong>{{ score }}</strong> exceeded the allowed
+    threshold. The following signals triggered this block:
+  </p>
+
+  <ul style="text-align:left; margin:1.25rem 0; padding-left:1.25rem;
+             color:var(--muted); line-height:2;">
+    {% for reason in reasons %}
+      <li>{{ reason }}</li>
+    {% endfor %}
+  </ul>
+
+  <p class="auth-subtitle" style="font-size:0.88rem;">
+    If you believe this is a mistake, contact your account administrator
+    or try again from a trusted device.
+  </p>
+
+  <a href="{{ url_for('auth.login') }}"
+     class="btn btn-primary auth-submit"
+     style="margin-top:1.5rem; display:block;">
+    Back to login
+  </a>
+
+</div>
+{% endblock %}
