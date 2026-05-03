@@ -135,7 +135,7 @@ zero_trust_auth/
 ### 1. Clone the repository
 
 ```
-git clone https://github.com/your-username/zero_trust_auth.git
+git clone https://github.com/Lizard-27/zero_trust_auth.git
 cd zero_trust_auth
 ```
 
